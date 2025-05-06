@@ -1,13 +1,15 @@
 import './App.css';
 import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
-import Shop from './Shop';
-import Contact from './Contact';
-import About from './About';
-import Cart from './Cart';
+import Shop from './pages/Shop';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import Cart from './pages/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const cart = useSelector((state) => state.cart.items)
   return (
     <Router>
       <div>
@@ -18,7 +20,17 @@ function App() {
             <li><Link to="/about" >About</Link></li>
             <li><Link to="/contact" >Contact</Link></li>
             <li><Link to="/cart" className='mini-cart'>
-              <span><FaCartShopping /></span>
+              <span><FaCartShopping />{
+                cart.length > 0 && (
+                  <span  style={{
+                    color: 'white',
+                    borderColor: "red",
+                    borderRadius: '50%',
+                    padding: '2px 6px',
+                    fontSize: '12px',
+                  }}>({cart.length})</span>
+                )
+              }</span>
             </Link></li>
           </ul>
         </nav>

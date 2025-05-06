@@ -1,10 +1,6 @@
-
-
-
-
 import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import "./App.css"
+import "../App.css"
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
