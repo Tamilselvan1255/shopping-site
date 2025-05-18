@@ -67,7 +67,7 @@ const Product = () => {
 
       if (editable) {
         await axios.patch(
-          `http://localhost:3000/api/product/updateProduct/${editableProduct}`,
+          `https://shopping-site-be.onrender.com/api/product/updateProduct/${editableProduct}`,
           formData,
           {
             headers: {
@@ -84,7 +84,7 @@ const Product = () => {
         setBrand("");
       } else {
         await axios.post(
-          `http://localhost:3000/api/product/addProduct`,
+          `https://shopping-site-be.onrender.com/api/product/addProduct`,
           formData,
           {
             headers: {
@@ -112,7 +112,7 @@ const Product = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:3000/api/product/viewProducts",
+        "https://shopping-site-be.onrender.com/api/product/viewProducts",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ const Product = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:3000/api/product/deleteProduct/${product_id}`,
+        `https://shopping-site-be.onrender.com/api/product/deleteProduct/${product_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

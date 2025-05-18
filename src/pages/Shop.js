@@ -14,7 +14,7 @@ const Shop = () => {
       try{
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3000/api/product/viewProducts",
+          "https://shopping-site-be.onrender.com/api/product/viewProducts",
           {
             headers: {
               Authorization: `Bearer ${token}`,
