@@ -2,95 +2,32 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Pagination, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/CartSlice";
+import axios from "axios";
 
 const Shop = () => {
   const dispatch = useDispatch();
-  const productDetails = [
-    {
-      product_id: "01",
-      product_name: "Laptop",
-      price: 45000,
-      description: "At better price",
-      brand: "Dell",
-    },
-    {
-      product_id: "02",
-      product_name: "Smartphone",
-      price: 25000,
-      description: "At better price",
-      brand: "Samsung",
-    },
-    {
-      product_id: "03",
-      product_name: "Headphones",
-      price: 2000,
-      description: "At better price",
-      brand: "Sony",
-    },
-    {
-      product_id: "04",
-      product_name: "Smartwatch",
-      price: 5000,
-      description: "Stylish and functional",
-      brand: "Boat",
-    },
-    {
-      product_id: "05",
-      product_name: "Tablet",
-      price: 30000,
-      description: "Great for entertainment",
-      brand: "Lenovo",
-    },
-    {
-      product_id: "06",
-      product_name: "Camera",
-      price: 60000,
-      description: "Capture memories",
-      brand: "Canon",
-    },
-    {
-      product_id: "07",
-      product_name: "Bluetooth Speaker",
-      price: 3500,
-      description: "Crystal clear sound",
-      brand: "JBL",
-    },
-    {
-      product_id: "08",
-      product_name: "Gaming Mouse",
-      price: 1500,
-      description: "High DPI precision",
-      brand: "Logitech",
-    },
-    {
-      product_id: "09",
-      product_name: "Mechanical Keyboard",
-      price: 4000,
-      description: "Tactile switches",
-      brand: "Corsair",
-    },
-    {
-      product_id: "10",
-      product_name: "4K Monitor",
-      price: 25000,
-      description: "Ultra HD resolution",
-      brand: "LG",
-    },
-    {
-      product_id: "11",
-      product_name: "Wireless Charger",
-      price: 1200,
-      description: "Fast wireless charging",
-      brand: "Mi",
-    },
-    {
-      product_id: "12",
-      product_name: "External SSD",
-      price: 8000,
-      description: "Fast and compact storage",
-      brand: "Samsung",
+  
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts(){
+      try{
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:3000/api/product/viewProducts",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setProducts(response.data.data.products);
+      }catch(error){
+         console.error("Error fetching products", error);
+      }
     }
-  ];
+    fetchProducts();
+  }, [])
   
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,8 +37,8 @@ const Shop = () => {
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
 
-  const currentItems = productDetails.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(productDetails.length / itemsPerPage);
+  const currentItems = products.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));  
@@ -122,17 +59,6 @@ const Shop = () => {
       {itemAdded && (
         <p style={{backgroundColor: "#90EE90", width: '100%'}} className="text-center text-success">Product added to your cart!</p>
       )}
-
-      {/* <ul>
-                {productDetails.map((item, index) => (
-                    <li key={index}>
-                        <h3>{item.product_name}</h3>
-                        <p>Price: {item.price}</p>
-                        <p>Description: {item.description}</p>
-                        <p>Brand: {item.brand}</p>
-                    </li>
-                ))}
-            </ul> */}
 
       <Row>
         {currentItems.map((item, index) => (
@@ -162,7 +88,7 @@ const Shop = () => {
 
       <div>
         Items per page: <b>{itemsPerPage}</b> <br />
-        Total items: <b>{productDetails.length}</b>
+        Total items: <b>{products.length}</b>
       </div>
 
       <div className="d-flex justify-content-center align-items-end">

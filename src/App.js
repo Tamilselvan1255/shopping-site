@@ -7,6 +7,8 @@ import About from './pages/About';
 import Cart from './pages/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
+import Home from './pages/Home';
+import Product from './pages/Product';
 
 function App() {
   const cart = useSelector((state) => state.cart.items)
@@ -17,6 +19,7 @@ function App() {
           <ul>
             <li><Link to="/" >Home</Link></li>
             <li><Link to="/shop" >Shop</Link></li>
+            <li><Link to="/product" >Product</Link></li>
             <li><Link to="/about" >About</Link></li>
             <li><Link to="/contact" >Contact</Link></li>
             <li><Link to="/cart" className='mini-cart'>
@@ -36,12 +39,8 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path='/' element={
-            <>
-              <h1>Home page</h1>
-              <p>Welcome to our Home page</p>
-            </>
-          } />
+          <Route path='/' element={<Home />} />
+          <Route path='/product' element={<Product />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
