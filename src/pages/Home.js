@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Formik } from 'formik';
-import { useState } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'; 
@@ -15,13 +14,14 @@ const Home = () => {
 
     const handleLogin = async(values, typeOfUser) => {
     try{
-        const response = await axios.post(`https://shopping-site-be.onrender.com/api/user/login`, {
+        const response = await axios.post(`http://localhost:3000/api/user/login`, {
             ...values,
             typeOfUser
         });
 
         alert("Login successful");
         localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('phoneNumber', response.data.data.existUser.phoneNumber);
         navigate("/product")
     }catch(error){
         console.error("Error while login:", error.message);

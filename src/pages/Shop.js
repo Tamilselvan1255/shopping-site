@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Pagination, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/CartSlice";
+// import { useDispatch } from "react-redux";
+// import { addToCart } from "../redux/CartSlice";
 import axios from "axios";
+import Popup from "../components/Popup";
 
 const Shop = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   
   const [products, setProducts] = useState([]);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
 
   useEffect(() => {
     async function fetchProducts(){
       try{
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "https://shopping-site-be.onrender.com/api/product/viewProducts",
+          "http://localhost:3000/api/product/viewProducts",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,9 +43,11 @@ const Shop = () => {
   const currentItems = products.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));  
-    setItemAdded(true);
+  const handleShow = (product) => {
+    // dispatch(addToCart(product));  
+    // setItemAdded(true);
+    setSelectedProduct(product);
+    setShowPopUp(true);
   };
 
   useEffect(()=> {
@@ -75,9 +80,9 @@ const Shop = () => {
                   <Button
                     className="w-75"
                     variant="success"
-                    onClick={() => handleAddToCart(item)}
+                    onClick={() => handleShow(item)}
                   >
-                    Add to Cart
+                   Buy now
                   </Button>
                 </div>
               </Card.Body>
@@ -93,7 +98,7 @@ const Shop = () => {
 
       <div className="d-flex justify-content-center align-items-end">
         <Pagination>
-          {[...Array(totalPages)].map((item, index) => (
+          {[...Array(totalPages)].map((_, index) => (
             <Pagination.Item
               key={index + 1}
               active={index + 1 === currentPage}
@@ -104,6 +109,8 @@ const Shop = () => {
           ))}
         </Pagination>
       </div>
+
+      <Popup show={showPopUp} close={()=>setShowPopUp(false)} item={selectedProduct} />
     </div>
   );
 };

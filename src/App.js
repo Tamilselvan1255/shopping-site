@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import Popup from './components/Popup';
 
 function App() {
   const cart = useSelector((state) => state.cart.items)
@@ -45,6 +46,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
           <Route path='/cart' element={<Cart/>} />
+          <Route path='/popup' element={<Popup/>} />
         </Routes>
       </div>
     </Router>

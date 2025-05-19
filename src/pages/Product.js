@@ -5,7 +5,6 @@ import {
   Col,
   Form,
   Row,
-  Table,
   Card,
   Pagination,
 } from "react-bootstrap";
@@ -24,7 +23,6 @@ const Product = () => {
   const [editableProduct, setEditableProduct] = useState(null);
 
   const [dynamicButton, setDynamicButton] = useState(false);
-  const [newData, setNewData] = useState(false);
 
   const handleEdit = (item) => {
     setEditableProduct(item._id);
@@ -67,7 +65,7 @@ const Product = () => {
 
       if (editable) {
         await axios.patch(
-          `https://shopping-site-be.onrender.com/api/product/updateProduct/${editableProduct}`,
+          `http://localhost:3000/api/product/updateProduct/${editableProduct}`,
           formData,
           {
             headers: {
@@ -84,7 +82,7 @@ const Product = () => {
         setBrand("");
       } else {
         await axios.post(
-          `https://shopping-site-be.onrender.com/api/product/addProduct`,
+          `http://localhost:3000/api/product/addProduct`,
           formData,
           {
             headers: {
@@ -112,7 +110,7 @@ const Product = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "https://shopping-site-be.onrender.com/api/product/viewProducts",
+        "http://localhost:3000/api/product/viewProducts",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -134,7 +132,7 @@ const Product = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `https://shopping-site-be.onrender.com/api/product/deleteProduct/${product_id}`,
+        `http://localhost:3000/api/product/deleteProduct/${product_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -304,7 +302,7 @@ const Product = () => {
                       Quantity: <b>{item.quantity}</b>
                     </Card.Text>
                     {item.product_images.map((image, index) => (
-                      <img key={index} src={image} width="40" height="40" />
+                      <img key={index} src={image} width="40" height="40" alt="preview" />
                     ))}
                   </Card.Body>
                 </Card>
